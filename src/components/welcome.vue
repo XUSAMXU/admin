@@ -1,6 +1,6 @@
 <template>
 	<div class="welcome">
-		welcome to my pro
+		welcome to admin
 	</div>
 </template>
 

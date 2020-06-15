@@ -1,12 +1,11 @@
 <template>
 	<div class="users">
 		<el-breadcrumb separator="/">
-			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-			<el-breadcrumb-item><a href="/home">活动管理</a></el-breadcrumb-item>
-			<el-breadcrumb-item>活动列表</el-breadcrumb-item>
-			<el-breadcrumb-item>活动详情</el-breadcrumb-item>
+				<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+				<el-breadcrumb-item v-for="( item,index ) in $route.meta" :key='index'>
+				{{item}}
+				</el-breadcrumb-item>
 		</el-breadcrumb>
-
 		<el-card>
 			<el-row>
 				<el-col :span='8'>
@@ -36,7 +35,7 @@
 							<el-button @click="showEditDialog(scope.row.id)" type="primary" icon="el-icon-edit" size="mini"></el-button>
 						</el-tooltip>
 						<el-tooltip class="item" effect="dark" content="设置" placement="top" :enterable="false">
-							<el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+							<el-button @click="showSetDialog(scope.row)" type="warning" icon="el-icon-setting" size="mini"></el-button>
 						</el-tooltip>
 						<el-tooltip class="item" effect="dark" content="删除" placement="top" :enterable="false">
 							<el-button @click="removeUserId(scope.row.id)" type="danger" icon="el-icon-delete" size="mini"></el-button>
@@ -70,7 +69,7 @@
 			</span>
 		</el-dialog>
 
-		<el-dialog title="提示" :close-on-click-modal="false" :visible.sync="editDialogVisable" width="50%" @close="handleClose('editDialogVisable','editForm')">
+		<el-dialog title="修改信息" :close-on-click-modal="false" :visible.sync="editDialogVisable" width="50%" @close="handleClose('editDialogVisable','editForm')">
 			<el-form :model="editForm" ref='editForm' label-width="70px" :rules='rules'>
 				<el-form-item label="用户名">
 					<el-input v-model="editForm.username" autocomplete="off" disabled></el-input>
@@ -85,6 +84,25 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="editDialogVisable = false">取 消</el-button>
 				<el-button type="primary" @click="editUserInfo('editForm')">确 定</el-button>
+			</span>
+		</el-dialog>
+		
+		<el-dialog @close="setRoleDialogClosed" title="分配角色" :visible.sync="setRoleDialogVisable" width="50%">
+			<div class="left-text ">
+				<p>当前的用户: {{userInfo.username}}</p>
+				<p>当前的角色: {{userInfo.role_name}}</p>
+				<p>分配新角色: 
+					<template>
+						<el-select v-model="selectRoleId" placeholder="请选择">
+							<el-option v-for="item in roleList" :key="item.id" :label="item.roleName" :value="item.id"></el-option>
+						</el-select>
+					</template>
+				</p>
+			</div>
+			
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="setRoleDialogVisable = false">取 消</el-button>
+				<el-button type="primary" @click="setRole">确 定</el-button>
 			</span>
 		</el-dialog>
 		
@@ -111,11 +129,17 @@
 				callback(new Error('手机号码不合法'))
 			}
 			return {
+				setRoleDialogVisable:false,
 				queryInfo: {
 					query: '',
 					pagenum: 1,
 					pagesize: 5
 				},
+				roleList:{
+					id:1,
+					roleName:'admin'
+				},
+				userInfo:{},
 				userList: [],
 				total: 10,
 				dialogVisible: false,
@@ -127,6 +151,7 @@
 					mobile: '',
 
 				},
+				selectRoleId:'',
 				editForm : {},
 				rules: {
 					username: [{
@@ -265,6 +290,30 @@
 				this.$message({type: 'success',message: '删除成功'})
 				this.getUserList()
 			},
+			async showSetDialog(userInfo){
+				this.userInfo = userInfo
+				const { data:res } = await this.$http.get('/roles')
+				
+				if(res.meta.status !== 200) return this.$message({type: 'err',message: '获取列表失败'})
+				// this.$message({type: 'success',message: '设置成功'})
+				this.roleList = res.data
+				this.setRoleDialogVisable = true
+			},
+			async setRole() {
+				if(!this.selectRoleId) return this.$message.error('请选择新的角色')
+				
+				const { data:res } = await this.$http.put(`users/${this.userInfo.id}/role`,{rid:this.selectRoleId})
+				
+				if(res.meta.status !== 200) return this.$message({type: 'err',message: '设置失败'})
+				this.$message({type: 'success',message: '设置成功'})
+				this.getUserList()
+				this.setRoleDialogVisable = false
+			},
+			setRoleDialogClosed() {
+				this.userInfo = {}
+				this.selectRoleId = ''
+			}
+			
 		}
 	}
 </script>

@@ -4,6 +4,8 @@ import Login from './components/login.vue'
 import Home from './components/home.vue'
 import Welcome from './components/welcome.vue'
 import Users from './components/user/users.vue'
+import Rights from './components/power/rights.vue'
+import Roles from './components/power/roles.vue'
 Vue.use(Router)
 
 const originalPush = Router.prototype.push
@@ -20,10 +22,13 @@ const router = new Router({
 		{
 			path : '/home',
 			component: Home,
+			meta:['首页'],
 			redirect: '/welcome',
 			children: [
-				{path: '/welcome',component: Welcome},
-				{path: '/users',component: Users},
+				{path: '/welcome',component: Welcome,meta:['后台主页']},
+				{path: '/users',component: Users,meta:['用户管理','用户列表']},
+				{path: '/rights',component: Rights,meta:['权限管理','权限列表']},
+				{path: '/roles',component: Roles,meta:['权限管理','角色列表']},
 				]
 		},
 		{

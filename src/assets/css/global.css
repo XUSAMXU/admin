@@ -5,7 +5,11 @@ html, body, #app {
 	margin: 0;
 	padding: 0;
 }
-.el-breadcrumb-item{
+
+#app{
+	min-width: 1366px;
+}
+.el-breadcrumb{
 	margin-bottom: 15px;
 	font-size: 16px;
 }
@@ -16,4 +20,7 @@ html, body, #app {
 .el-table {
 	margin-top: 15px;
 	font-size: 12px;
+}
+.left-text {
+	text-align: left;
 }
