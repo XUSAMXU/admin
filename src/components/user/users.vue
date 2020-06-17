@@ -132,7 +132,7 @@
 				setRoleDialogVisable:false,
 				queryInfo: {
 					query: '',
-					pagenum: 1,
+					pagenum:  1,
 					pagesize: 5
 				},
 				roleList:{

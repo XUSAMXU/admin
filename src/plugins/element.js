@@ -11,7 +11,8 @@ import {
 	Tag,
 	Tree,
 	Select,
-	Option
+	Option,
+	Cascader
 } from 'element-ui'
 import {
 	Container,
@@ -68,4 +69,5 @@ Vue.use(Tag)
 Vue.use(Tree)
 Vue.use(Option)
 Vue.use(Select)
+Vue.use(Cascader)
 

@@ -6,6 +6,7 @@ import Welcome from './components/welcome.vue'
 import Users from './components/user/users.vue'
 import Rights from './components/power/rights.vue'
 import Roles from './components/power/roles.vue'
+import Cates from './components/goods/cates.vue'
 Vue.use(Router)
 
 const originalPush = Router.prototype.push
@@ -29,6 +30,8 @@ const router = new Router({
 				{path: '/users',component: Users,meta:['用户管理','用户列表']},
 				{path: '/rights',component: Rights,meta:['权限管理','权限列表']},
 				{path: '/roles',component: Roles,meta:['权限管理','角色列表']},
+				{path: '/goods',component: Cates,meta:['商品管理','商品分类']},
+				
 				]
 		},
 		{
