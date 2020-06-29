@@ -30,7 +30,7 @@
 		data () {
 			return {
 				ruleForm: {
-					username:'',
+					username:'admin',
 					password:'',
 				},
 				rules: {
@@ -60,7 +60,10 @@
 						console.log(res)
 						if(res.meta.status != 200) return this.$message.error(res.meta.msg);
 						this.$message.success('登陆成功')
-						this.$router.push('/home')
+						// this.$router.push('/home')
+						this.$router.push({
+							path:this.$route.query.redirect || "/"
+						})
 					}
 				})
 			},

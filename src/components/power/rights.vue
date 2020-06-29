@@ -2,7 +2,7 @@
 	<div>
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-			<el-breadcrumb-item v-for="( item,index ) in $route.meta" :key='index'>
+			<el-breadcrumb-item v-for="( item,index ) in $route.meta.title" :key='index'>
 				{{item}}
 			</el-breadcrumb-item>
 		</el-breadcrumb>

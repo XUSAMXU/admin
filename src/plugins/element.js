@@ -37,7 +37,10 @@ import {
 	Table,
 	TableColumn,
 	Switch,
-	MessageBox
+	MessageBox,
+	Alert,
+	Tabs,
+	TabPane
 } from 'element-ui'
 
 Vue.prototype.$confirm = MessageBox
@@ -70,4 +73,7 @@ Vue.use(Tree)
 Vue.use(Option)
 Vue.use(Select)
 Vue.use(Cascader)
+Vue.use(Tabs)
+Vue.use(Alert)
+Vue.use(TabPane)
 

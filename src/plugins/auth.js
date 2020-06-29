@@ -6,6 +6,6 @@ export function setToken (token) {
 	return window.sessionStorage.setItem('token', token)
 }
 
-export function removeToken (token) {
-	window.sessionStorage.removeItem(token)
+export function resetToken () {
+	return window.sessionStorage.removeItem('token')
 } 
